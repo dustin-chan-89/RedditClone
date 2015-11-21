@@ -1,7 +1,20 @@
 class User < ActiveRecord::Base
   attr_reader :password
   validates :username, :password_digest, presence: true
-  validates :password, length: { minimum: 6, allow_nil: true}
+  validates :password, length: { minimum: 6, allow_nil: true }
+  after_initialize :ensure_session_token
+
+  has_many :moderated_subs,
+    foreign_key: :user_id,
+    primary_key: :id,
+    class_name: "Sub"
+
+  has_many :posts,
+    foreign_key: :user_id,
+    primary_key: :id,
+    class_name: "Post"
+
+
   def self.find_by_credentials(username, password)
     user = User.find_by_username(username)
     return nil if user.nil?
@@ -18,7 +31,8 @@ class User < ActiveRecord::Base
     self.session_token
   end
 
-  def password=(password)
+  def password=(value)
+    @password = password
     self.password_digest = BCrypt::Password.create(password)
   end
 

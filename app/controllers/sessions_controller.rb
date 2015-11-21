@@ -1,15 +1,15 @@
-class SessionController < ApplicationController
-
+class SessionsController < ApplicationController
   def new
     render :new
   end
 
   def create
-    user = User.find_by(
+    user = User.find_by_credentials(
       params[:user][:username],
       params[:user][:password]
     )
 
+    # Switch branches
     if user.nil?
       redirect_to new_user_url
     else

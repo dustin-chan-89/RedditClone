@@ -11,15 +11,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151120191542) do
+ActiveRecord::Schema.define(version: 20151120234357) do
 
-  create_table "users", force: :cascade do |t|
-    t.string   "username",        null: false
-    t.string   "password_digest", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+  create_table "post_subs", force: :cascade do |t|
+    t.integer  "post_id",    null: false
+    t.integer  "sub_id",     null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
+  add_index "post_subs", ["post_id", "sub_id"], name: "index_post_subs_on_post_id_and_sub_id"
+
+  create_table "posts", force: :cascade do |t|
+    t.string   "title",      null: false
+    t.string   "url"
+    t.text     "content"
+    t.integer  "sub_id",     null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "posts", ["sub_id", "user_id"], name: "index_posts_on_sub_id_and_user_id"
+
+  create_table "subs", force: :cascade do |t|
+    t.string   "title",       null: false
+    t.text     "description", null: false
+    t.integer  "user_id",     null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "subs", ["user_id"], name: "index_subs_on_user_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string   "username",                                null: false
+    t.string   "password_digest",                         null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
+    t.string   "session_token",   default: "placeholder", null: false
+  end
+
+  add_index "users", ["session_token"], name: "index_users_on_session_token", unique: true
   add_index "users", ["username"], name: "index_users_on_username", unique: true
 
 end

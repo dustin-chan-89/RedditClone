@@ -1,0 +1,18 @@
+<h1> Edit <%= @sub.title %> Subreddit </h1>
+
+<form action= <%= subs_url %> method="post">
+  <%= render "shared/auth" %>
+  <label for="sub_title">Subreddit Title</label>
+  <input type="text" name="sub[title]" id="sub_title" value="<%= @sub.title %>">
+
+  <br>
+
+  <label for="sub_description">Description</label>
+  <textarea name="sub[description]" rows="8" cols="40" id="sub_description">
+<%= @sub.description %>
+  </textarea>
+  <br>
+
+  <input type="submit" value="submit">
+
+</form>

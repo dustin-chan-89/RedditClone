@@ -1,7 +1,7 @@
 <h1>Log In</h1>
 
-<form action= <%= users_url %>  method="post">
-  <input type="hidden" name="authenticity_token" value= "<%= form_authenticity_token %>">
+<form action= <%= session_url %>  method="post">
+  <%= render "shared/auth" %>
   <label for="username">User Name</label>
   <input type="text" name=user[username] id="username">
   <br>

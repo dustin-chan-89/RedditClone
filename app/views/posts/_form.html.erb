@@ -1,0 +1,29 @@
+<% action = (post.persisted?) ? post_url(post) : posts_url %>
+<% method = (post.persisted?) ? :patch : :post %>
+
+<h1> Create a post </h1>
+<form action= <%= action %> method="post">
+  <input type="hidden" name="_method" value="<%= method %>">
+  <%= auth_token %>
+  <label for="post_title">Title</label>
+  <input type="text" name=post[title] value="<%= post.title %>" id="post_title">
+  <br>
+  <label for="post_url">Url (optional)</label>
+  <input type="text" name=post[url] value="<%= post.url %>" id="post_url">
+  <br>
+  <label for="post_content">Content</label>
+  <textarea name=post[content]
+            rows="8"
+            cols="40" id="post_content"><%= post.content %></textarea>
+  <br>
+  <br>
+  <label for="sub_reddit">Subreddit</label>
+    <% Sub.all.each do |subreddit| %>
+      <br>
+      <input type="checkbox" name="post[sub_id][]" value="<%= subreddit.id %>" id="<%= subreddit.title %>">
+      <label for="<%=subreddit.title%>"><%=subreddit.title%></label>
+
+    <% end %>
+  <br>
+  <input type="submit" value="Submit">
+</form>

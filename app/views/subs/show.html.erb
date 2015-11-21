@@ -1,0 +1,7 @@
+<h1> r/<%= @sub.title %> </h1>
+<p>
+  <%= @sub.description %>
+</p>
+
+<%= link_to("Edit", edit_sub_url(@sub)) %>
+<%= button_to("Create a post", new_sub_url(@sub), method: :get) %>
